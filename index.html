@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vagante Promoções - Vitrine de Ofertas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center p-4">
+
+    <!-- Cabeçalho -->
+    <header class="w-full max-w-md text-center my-6">
+        <h1 class="text-2xl font-black tracking-wider text-orange-500">🔥 VAGANTE PROMOÇÕES</h1>
+        <p class="text-xs text-slate-400 mt-1">As melhores ofertas selecionadas para você em tempo real!</p>
+    </header>
+
+    <!-- Vitrine de Produtos -->
+    <main id="vitrine-container" class="w-full max-w-md space-y-4">
+        <!-- Os produtos serão injetados aqui via JavaScript -->
+        <div class="text-center text-slate-500 py-10">Carregando ofertas...</div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="w-full max-w-md text-center text-xs text-slate-500 my-8">
+        <p>Participe do nosso grupo no Telegram:</p>
+        <a href="https://t.me/vagantepromo" target="_blank" class="text-orange-400 font-semibold hover:underline">t.me/vagantepromo</a>
+    </footer>
+
+    <script>
+        async function carregarVitrine() {
+            try {
+                // ⚠️ Cole aqui embaixo a URL pública do seu arquivo vitrine.json no Vercel Blob
+                const urlBlob = 'SUA_URL_PUBLICA_DO_VERCEL_BLOB_AQUI'; 
+                
+                const response = await fetch(urlBlob);
+                const produtos = await response.json();
+                
+                const container = document.getElementById('vitrine-container');
+                container.innerHTML = '';
+
+                if (!produtos || produtos.length === 0) {
+                    container.innerHTML = '<p class="text-center text-slate-500 py-10">Nenhuma oferta no momento.</p>';
+                    return;
+                }
+
+                produtos.forEach(prod => {
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex gap-4 items-center";
+                    
+                    card.innerHTML = `
+                        <img src="${prod.image}" alt="${prod.title}" class="w-24 h-24 object-cover rounded-xl bg-slate-800 flex-shrink-0">
+                        <div class="flex flex-col justify-between flex-grow">
+                            <div>
+                                <span class="text-[10px] text-slate-500 block mb-1">${prod.time}</span>
+                                <h2 class="text-sm font-medium line-clamp-2 text-slate-200">${prod.title}</h2>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <span class="text-lg font-bold text-emerald-400">R$ ${Number(prod.price).toFixed(2).replace('.', ',')}</span>
+                                <a href="${prod.link}" target="_blank" class="bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition">Ver Oferta</a>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar vitrine:", error);
+                document.getElementById('vitrine-container').innerHTML = '<p class="text-center text-slate-500 py-10">Nenhuma oferta no momento.</p>';
+            }
+        }
+
+        carregarVitrine();
+        setInterval(carregarVitrine, 60000); // Atualiza a cada 1 minuto
+    </script>
+</body>
+</html>
