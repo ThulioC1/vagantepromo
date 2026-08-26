@@ -30,7 +30,7 @@
         async function carregarVitrine() {
             try {
                 // ⚠️ Cole aqui embaixo a URL pública do seu arquivo vitrine.json no Vercel Blob
-                const urlBlob = 'SUA_URL_PUBLICA_DO_VERCEL_BLOB_AQUI'; 
+                const urlBlob = 'https://rzd48c84t8k2zcdu.public.blob.vercel-storage.com'; 
                 
                 const response = await fetch(urlBlob);
                 const produtos = await response.json();
