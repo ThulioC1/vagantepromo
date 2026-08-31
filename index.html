@@ -3,238 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitrine de Ofertas - Vagante Promo</title>
+    <title>Vagante Promo - Melhores Ofertas</title>
     <style>
         :root {
-            --bg-color: #0c1626;
-            --card-bg: #132238;
-            --text-color: #ffffff;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
             --text-muted: #94a3b8;
             --accent-color: #3b82f6;
             --accent-hover: #2563eb;
-            --price-color: #10b981;
+            --price-color: #22c55e;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
         header {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-bottom: 1px solid #334155;
         }
-
         header h1 {
-            margin: 0 0 10px 0;
-            font-size: 24px;
+            margin: 0;
+            font-size: 2rem;
+            color: #fff;
         }
-
         header p {
             color: var(--text-muted);
-            margin: 0;
-            font-size: 14px;
+            margin-top: 0.5rem;
         }
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .tab-btn {
-            background-color: var(--card-bg);
-            color: var(--text-muted);
-            border: 1px solid #1e293b;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background-color: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        .vitrine-section {
             display: none;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
         }
-
-        .container.active {
+        .vitrine-section.active {
+            display: block;
+        }
+        .grid {
             display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
         }
-
         .card {
             background-color: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
+            border: 1px solid #334155;
             display: flex;
             flex-direction: column;
-            border: 1px solid #1e293b;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .card:hover {
             transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-
         .card img {
             width: 100%;
-            height: 220px;
+            height: 200px;
             object-fit: contain;
-            background-color: #ffffff;
+            background-color: #fff;
             padding: 10px;
             box-sizing: border-box;
         }
-
         .card-content {
-            padding: 15px;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
             justify-content: space-between;
         }
-
         .card-title {
-            font-size: 14px;
-            line-height: 1.4;
-            margin: 0 0 15px 0;
+            font-size: 0.95rem;
+            margin: 0 0 1rem 0;
             color: var(--text-color);
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
-        .price-box {
-            margin-bottom: 15px;
-        }
-
-        .old-price {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-decoration: line-through;
-            margin: 0;
-        }
-
-        .current-price {
-            font-size: 20px;
+        .card-price {
+            font-size: 1.25rem;
             font-weight: bold;
             color: var(--price-color);
-            margin: 2px 0 0 0;
+            margin-bottom: 1rem;
         }
-
-        .btn-buy {
+        .card-btn {
             background-color: var(--accent-color);
             color: white;
             text-align: center;
-            padding: 10px;
-            border-radius: 6px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: bold;
             transition: background-color 0.2s;
         }
-
-        .btn-buy:hover {
+        .card-btn:hover {
             background-color: var(--accent-hover);
         }
-
-        .time {
-            font-size: 11px;
+        .loading, .error {
+            text-align: center;
             color: var(--text-muted);
-            text-align: right;
-            margin-top: 10px;
+            grid-column: 1 / -1;
+            padding: 2rem;
         }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>🔥 Vagante Promo - Melhores Ofertas</h1>
-        <p>Atualizado em tempo real direto do Mercado Livre</p>
+        <h1>🔥 Vagante Promo</h1>
+        <p>As melhores ofertas da internet em tempo real!</p>
     </header>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('eletronicos')">🎮 Eletrônicos & Games</button>
-        <button class="tab-btn" onclick="switchTab('geral')">🛒 Ofertas Gerais</button>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('eletronicos', event)">🎮 Eletrônicos & Games</button>
+            <button class="tab-btn" onclick="switchTab('geral', event)">📦 Ofertas Gerais</button>
+        </div>
+
+        <!-- Seção Eletrônicos -->
+        <div id="eletronicos" class="vitrine-section active">
+            <div id="grid-eletronicos" class="grid">
+                <div class="loading">Carregando eletrônicos...</div>
+            </div>
+        </div>
+
+        <!-- Seção Geral -->
+        <div id="geral" class="vitrine-section">
+            <div id="grid-geral" class="grid">
+                <div class="loading">Carregando ofertas gerais...</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Vitrine Eletrônicos -->
-    <div id="grid-eletronicos" class="container active"></div>
-
-    <!-- Vitrine Geral -->
-    <div id="grid-geral" class="container"></div>
-
     <script>
-        function switchTab(category) {
+        function switchTab(tabId, event) {
+            document.querySelectorAll('.vitrine-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.container').forEach(cont => cont.classList.remove('active'));
-
-            if (category === 'eletronicos') {
-                document.querySelector('.tabs button:nth-child(1)').classList.add('active');
-                document.getElementById('grid-eletronicos').classList.add('active');
-            } else {
-                document.querySelector('.tabs button:nth-child(2)').classList.add('active');
-                document.getElementById('grid-geral').classList.add('active');
-            }
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
-        async function loadVitrine(filename, gridId) {
+        async function loadVitrine(url, gridId) {
             const grid = document.getElementById(gridId);
             try {
-                const response = await fetch(filename + "?t=" + new Date().getTime());
-                if (!response.ok) throw new Error("Erro ao carregar dados");
-                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Erro ao carregar dados');
                 const products = await response.json();
-                if (products.length === 0) {
-                    grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #94a3b8;'>Nenhuma oferta no momento.</p>";
+                
+                if (!products || products.length === 0) {
+                    grid.innerHTML = '<div class="error">Nenhum produto encontrado no momento. Aguarde o próximo ciclo do bot.</div>';
                     return;
                 }
 
                 grid.innerHTML = products.map(p => `
                     <div class="card">
-                        <img src="${p.image}" alt="${p.title}">
+                        <img src="${p.image}" alt="${p.title}" loading="lazy">
                         <div class="card-content">
                             <div>
-                                <h2 class="card-title">${p.title}</h2>
-                                <div class="price-box">
-                                    ${p.original_price && p.original_price > p.price ? `<p class="old-price">R$ ${p.original_price.toFixed(2).replace('.', ',')}</p>` : ''}
-                                    <p class="current-price">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
-                                </div>
+                                <h3 class="card-title" title="${p.title}">${p.title}</h3>
+                                <div class="card-price">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
                             </div>
-                            <div>
-                                <a href="${p.link}" target="_blank" class="btn-buy">Ver Oferta 🚀</a>
-                                <div class="time">${p.time || ''}</div>
-                            </div>
+                            <a href="${p.link}" target="_blank" class="card-btn">Ver Oferta 🔗</a>
                         </div>
                     </div>
                 `).join('');
-            } catch (e) {
-                grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #94a3b8;'>Aguardando primeiras postagens do bot...</p>";
+            } catch (error) {
+                console.error(error);
+                grid.innerHTML = '<div class="error">Aguardando o primeiro envio de produtos pelo bot...</div>';
             }
         }
 
-        // Carrega os dados ao abrir a página
-        loadVitrine('vitrine_eletronicos.json', 'grid-eletronicos');
-        loadVitrine('vitrine_geral.json', 'grid-geral');
+        // URLs oficiais do Vercel Blob configuradas
+        const URL_ELETRONICOS = 'https://rzd48c84t8k2zcdu.public.blob.vercel-storage.com/vitrine_eletronicos.json';
+        const URL_GERAL = 'https://rzd48c84t8k2zcdu.public.blob.vercel-storage.com/vitrine_geral.json';
 
-        // Atualiza a cada 5 minutos automaticamente
-        setInterval(() => {
-            loadVitrine('vitrine_eletronicos.json', 'grid-eletronicos');
-            loadVitrine('vitrine_geral.json', 'grid-geral');
-        }, 300000);
+        // Carrega as vitrines ao abrir a página
+        loadVitrine(URL_ELETRONICOS, 'grid-eletronicos');
+        loadVitrine(URL_GERAL, 'grid-geral');
     </script>
 </body>
 </html>
