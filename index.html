@@ -142,8 +142,8 @@
     <script>
         async function loadVitrine() {
             const container = document.getElementById("vitrine-container");
-            // Se estiver hospedado no Vercel Blob, substitua pela URL completa do vitrine.json ou mantenha relativo se estiver no mesmo servidor
-            const jsonUrl = "vitrine.json?t=" + new Date().getTime();
+            // URL configurada diretamente com o seu Vercel Blob
+            const jsonUrl = "https://rzd48c84T8k2zCDu.public.blob.vercel-storage.com/vitrine.json?t=" + new Date().getTime();
 
             try {
                 const response = await fetch(jsonUrl);
